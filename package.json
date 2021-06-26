@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "prepare": "husky install",
-    "relay": "yarn run relay-compiler --schema schema.graphql --src ./src/ --watchman $@"
+    "relay": "yarn run relay-compiler --schema schema.graphql --src ./src/ --watchman $@ --watch"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.13",
