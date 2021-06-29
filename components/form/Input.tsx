@@ -11,7 +11,7 @@ interface InputProps {
 const Input = ({ label = '', placeholder = '', helperText = '', type = 'text', id }: InputProps) => (
   <FormControl id={id}>
     {label ? <FormLabel color="white">{label}</FormLabel> : null}
-    <ChakraInput backgroundColor="gray.400" type={type} variant="filled" placeholder={placeholder} />
+    <ChakraInput borderColor="gray.400" color="white" type={type} placeholder={placeholder} />
     {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
   </FormControl>
 )
