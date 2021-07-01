@@ -1,16 +1,28 @@
-import { Box, Button, Flex, Heading, VStack, Text, Link as ChakraLink } from '@chakra-ui/react'
-import { Formik } from 'formik'
+import { Box, Button, Flex, Heading, Text, Link as ChakraLink } from '@chakra-ui/react'
+import { Formik, Form, Field } from 'formik'
+import * as yup from 'yup'
 import Input from '../components/form/Input'
+
+const validationSchema = yup.object().shape({
+  email: yup.string().email('Invalid email').required('This field is required'),
+  name: yup.string().required('This field is required'),
+  password: yup.string().required('This field is required'),
+  passwordConfirmation: yup.string().test('passwords-match', 'Passwords must match', function (value) {
+    return this.parent.password === value
+  }),
+})
 
 const formInitialValues = {
   email: '',
   name: '',
-  password: '',
-  confirmPassword: '',
+  password: '1',
+  passwordConfirmation: '',
 }
 
 const SignUp = () => {
   const handleFormSubmit = (values, { setSubmitting }) => {
+    setSubmitting(true)
+    values.preventDefault()
     console.log('values', values)
   }
 
@@ -24,28 +36,53 @@ const SignUp = () => {
           The simple headless CMS you always needed
         </Heading>
 
-        <Formik initialValues={formInitialValues} onSubmit={handleFormSubmit}>
-          {({ values, errors, handleSubmit, isSubmitting }) => (
-            <Flex flexDirection="column" alignItems="stretch" as="form" mt="3rem" w="100%" maxWidth="500px" px="1rem" onSubmit={handleSubmit}>
+        <Formik initialValues={formInitialValues} validationSchema={validationSchema} onSubmit={handleFormSubmit}>
+          {({ isSubmitting }) => (
+            <Form>
               <Box mb={8}>
-                <Input id="email" placeholder="name@example.com" label="Your email" />
+                <Field name="email">
+                  {({ field, form }) => <Input {...field} id="email" name="email" placeholder="name@example.com" label="Your email" errors={form.touched.email && form.errors.email} />}
+                </Field>
               </Box>
+
               <Box mb={8}>
-                <Input id="password" placeholder="A secure password" label="Your password" type="password" />
+                <Field name="name">
+                  {({ field, form }) => <Input {...field} id="name" name="name" placeholder="How should we call you?" label="Your name" errors={form.touched.name && form.errors.name} />}
+                </Field>
               </Box>
 
               <Box mb={8}>
-                <Input id="password" placeholder="Your password confirmation" label="Password confirmation" type="password" />
+                <Field namme="password">
+                  {({ field, form }) => (
+                    <Input {...field} id="password" name="password" placeholder="A secure password" label="Your password" type="password" errors={form.touched.password && form.errors.password} />
+                  )}
+                </Field>
               </Box>
 
-              <Button alignSelf="flex-end" colorScheme="red" mb="0.5rem">
+              <Box mb={8}>
+                <Field name="passwordConfirmation">
+                  {({ field, form }) => (
+                    <Input
+                      {...field}
+                      id="password-confirmation"
+                      name="passwordConfirmation"
+                      placeholder="Your password confirmation"
+                      label="Password confirmation"
+                      type="password"
+                      errors={form.touched.passwordConfirmation && form.errors.passwordConfirmation}
+                    />
+                  )}
+                </Field>
+              </Box>
+
+              <Button type="submit" alignSelf="flex-end" colorScheme="red" mb="0.5rem" isLoading={isSubmitting}>
                 Sign up
               </Button>
 
               <Text color="white">
                 Already have an account? <ChakraLink color="red.600">Log in then</ChakraLink>
               </Text>
-            </Flex>
+            </Form>
           )}
         </Formik>
       </Flex>
