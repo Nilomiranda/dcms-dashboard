@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "prepare": "husky install",
-    "relay": "yarn run relay-compiler --schema schema.graphql --src ./src/ --watchman $@ --watch"
+    "relay": "yarn run relay-compiler --schema schema.graphql --src ./ --language typescript --watchman $@ --watch"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.13",
@@ -16,21 +16,23 @@
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "axios": "^0.21.1",
+    "babel-plugin-relay": "^11.0.2",
     "formik": "^2.2.9",
     "framer-motion": "^4.1.11",
     "next": "10.2.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-relay": "^11.0.2",
+    "relay-compiler-language-typescript": "^14.0.0",
     "relay-runtime": "^11.0.2",
     "yup": "^0.32.9"
   },
   "devDependencies": {
     "@types/react": "^17.0.5",
+    "@types/react-relay": "^11.0.1",
     "@types/yup": "^0.29.11",
     "@typescript-eslint/eslint-plugin": "^4.23.0",
     "@typescript-eslint/parser": "^4.23.0",
-    "babel-plugin-relay": "^11.0.2",
     "eslint": "^7.26.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",

@@ -9,6 +9,7 @@ async function fetchGraphQL(text, variables) {
       query: text,
       variables,
     }),
+    credentials: 'include',
   })
 
   // Get the response as JSON

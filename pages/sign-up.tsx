@@ -1,13 +1,14 @@
 import { Box, Button, Flex, Heading, Text, Link as ChakraLink } from '@chakra-ui/react'
 import { Formik, Form, Field } from 'formik'
 import * as yup from 'yup'
+import { commitMutation, useRelayEnvironment, graphql } from 'react-relay'
 import Input from '../components/form/Input'
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('This field is required'),
   name: yup.string().required('This field is required'),
   password: yup.string().required('This field is required'),
-  passwordConfirmation: yup.string().test('passwords-match', 'Passwords must match', function (value) {
+  passwordConfirmation: yup.string().test('passwords-match', 'Passwords must match', function validatePasswordConfirmation(value) {
     return this.parent.password === value
   }),
 })
@@ -15,15 +16,50 @@ const validationSchema = yup.object().shape({
 const formInitialValues = {
   email: '',
   name: '',
-  password: '1',
+  password: '',
   passwordConfirmation: '',
 }
 
 const SignUp = () => {
+  const environment = useRelayEnvironment()
+
+  const signUpMutation = graphql`
+    mutation signUpMutation($input: CreateUserInput!) {
+      createUser(input: $input) {
+        user {
+          name
+          id
+          email
+        }
+      }
+    }
+  `
+
+  const handleCreateUserMutationCompleted = (setSubmitting) => {
+    setSubmitting(false)
+    console.log('user created')
+  }
+
+  const handleCreateUserMutationError = (setSubmitting) => {
+    setSubmitting(false)
+    console.error('error creating user')
+  }
+
+  const commitSignUpMutation = (input, setSubmitting) =>
+    commitMutation(environment, {
+      mutation: signUpMutation,
+      variables: {
+        input,
+      },
+      onCompleted: () => handleCreateUserMutationCompleted(setSubmitting),
+      onError: () => handleCreateUserMutationError(setSubmitting),
+    })
+
   const handleFormSubmit = (values, { setSubmitting }) => {
     setSubmitting(true)
-    values.preventDefault()
-    console.log('values', values)
+    const { name, email, password } = values
+
+    commitSignUpMutation({ name, authProvider: { credentials: { email, password } } }, setSubmitting)
   }
 
   return (
@@ -52,7 +88,7 @@ const SignUp = () => {
               </Box>
 
               <Box mb={8}>
-                <Field namme="password">
+                <Field name="password">
                   {({ field, form }) => (
                     <Input {...field} id="password" name="password" placeholder="A secure password" label="Your password" type="password" errors={form.touched.password && form.errors.password} />
                   )}

@@ -1350,6 +1350,23 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
 
+"@types/react-relay@^11.0.1":
+  version "11.0.1"
+  resolved "https://registry.yarnpkg.com/@types/react-relay/-/react-relay-11.0.1.tgz#5750409b4323f871910a52b514daab09aa4f4c75"
+  integrity sha512-mp9HUfaFcuynWNGpuS6GJEgIkQMeUvaVZ0KNLeJp21aAwsSajeU7vVH4uttSHk9iEvfw8ZyF5fqZHzKpCOeIDQ==
+  dependencies:
+    "@types/react" "*"
+    "@types/relay-runtime" "*"
+
+"@types/react@*":
+  version "17.0.13"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.13.tgz#6b7c9a8f2868586ad87d941c02337c6888fb874f"
+  integrity sha512-D/G3PiuqTfE3IMNjLn/DCp6umjVCSvtZTPdtAFy5+Ved6CsdRvivfKeCzw79W4AatShtU4nGqgvOv5Gro534vQ==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
 "@types/react@^17.0.0", "@types/react@^17.0.5":
   version "17.0.5"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.5.tgz#3d887570c4489011f75a3fc8f965bf87d09a1bea"
@@ -1358,6 +1375,11 @@
     "@types/prop-types" "*"
     "@types/scheduler" "*"
     csstype "^3.0.2"
+
+"@types/relay-runtime@*":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@types/relay-runtime/-/relay-runtime-11.0.0.tgz#7ddbe41152d46b614d1f3f7f0672cfb721eb93f1"
+  integrity sha512-D5JNxDhkcPSIMZc2j3N/fh61399O309ph9RVmzbF+Fsyvepsqy7FirFKcJ2CMfYxE/kb8ZD/Xdzs3CYZEiQc4w==
 
 "@types/scheduler@*":
   version "0.16.1"
@@ -3163,6 +3185,11 @@ ignore@^5.1.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.8.tgz#f150a8b50a34289b33e22f5889abd4d8016f0e57"
   integrity sha512-BMpfD7PpiETpBl/A6S498BaIJ6Y/ABT93ETbby2fP00v4EbvPBXWEoaR1UBPKs3iR53pJY7EtZk5KACI57i1Uw==
 
+immutable@^4.0.0-rc.12:
+  version "4.0.0-rc.12"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.0.0-rc.12.tgz#ca59a7e4c19ae8d9bf74a97bdf0f6e2f2a5d0217"
+  integrity sha512-0M2XxkZLx/mi3t8NVwIm1g8nHoEmM9p9UBl/G9k4+hm0kBgOVdMV/B3CY5dQ8qG8qc80NN4gDV4HQv6FTJ5q7A==
+
 immutable@~3.7.6:
   version "3.7.6"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.7.6.tgz#13b4d3cb12befa15482a26fe1b2ebae640071e4b"
@@ -4469,6 +4496,14 @@ regexpp@^3.0.0, regexpp@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/regexpp/-/regexpp-3.1.0.tgz#206d0ad0a5648cffbdb8ae46438f3dc51c9f78e2"
   integrity sha512-ZOIzd8yVsQQA7j8GCSlPGXwg5PfmA1mrq0JP4nGhh54LaKN3xdai/vHUDu74pKwV8OxseMS65u2NImosQcSD0Q==
+
+relay-compiler-language-typescript@^14.0.0:
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/relay-compiler-language-typescript/-/relay-compiler-language-typescript-14.0.0.tgz#53a256d2da9656ded7bb43b465cde61c361027b5"
+  integrity sha512-/x9WvwTcO/wNxzRnegzWI0T5eggd0zI0/e6C08lQe4djtzzSlydTLM3Aa9P5piiZYrcrkVwD/Kbc90cifDtb2w==
+  dependencies:
+    immutable "^4.0.0-rc.12"
+    invariant "^2.2.4"
 
 relay-compiler@^11.0.2:
   version "11.0.2"
