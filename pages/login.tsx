@@ -4,6 +4,7 @@ import Link from 'next/link'
 import * as yup from 'yup'
 import { commitMutation, useRelayEnvironment, graphql } from 'react-relay'
 
+import { useRouter } from 'next/router'
 import Input from '../components/form/Input'
 
 const validationSchema = yup.object().shape({
@@ -19,6 +20,7 @@ const formInitialValues = {
 const Login = () => {
   const toast = useToast()
   const environment = useRelayEnvironment()
+  const router = useRouter()
 
   const loginMutation = graphql`
     mutation loginMutation($input: SignInInput!) {
@@ -42,6 +44,8 @@ const Login = () => {
       duration: 5000,
       isClosable: true,
     })
+
+    router.push('/app/home')
   }
 
   const handleSignInMutationFailed = (setSubmitting, error: Error) => {
