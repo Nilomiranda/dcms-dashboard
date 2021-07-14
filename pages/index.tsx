@@ -1,3 +1,12 @@
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+
 export default function Index() {
-  return <h1>hi</h1>
+  const router = useRouter()
+
+  useEffect(() => {
+    router.push('/login')
+  }, [])
+
+  return null
 }
