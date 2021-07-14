@@ -9,10 +9,17 @@ async function fetchGraphQL(text, variables) {
       query: text,
       variables,
     }),
+    credentials: 'include',
   })
 
+  const jsonResponse = await response.json()
+
+  if (jsonResponse?.errors?.length) {
+    throw new Error(jsonResponse?.errors[0]?.message || 'Unexpecte error')
+  }
+
   // Get the response as JSON
-  return response.json()
+  return jsonResponse
 }
 
 export default fetchGraphQL
