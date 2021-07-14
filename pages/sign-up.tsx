@@ -1,7 +1,8 @@
-import { Box, Button, Flex, Heading, Text, Link as ChakraLink } from '@chakra-ui/react'
+import { Box, Button, Flex, Heading, Text, Link as ChakraLink, useToast } from '@chakra-ui/react'
 import { Formik, Form, Field } from 'formik'
 import * as yup from 'yup'
 import { commitMutation, useRelayEnvironment, graphql } from 'react-relay'
+
 import Input from '../components/form/Input'
 
 const validationSchema = yup.object().shape({
@@ -21,6 +22,7 @@ const formInitialValues = {
 }
 
 const SignUp = () => {
+  const toast = useToast()
   const environment = useRelayEnvironment()
 
   const signUpMutation = graphql`
@@ -40,9 +42,16 @@ const SignUp = () => {
     console.log('user created')
   }
 
-  const handleCreateUserMutationError = (setSubmitting) => {
+  const handleCreateUserMutationError = (setSubmitting, error: Error) => {
     setSubmitting(false)
-    console.error('error creating user')
+
+    toast({
+      title: "Couldn't create account",
+      description: error?.message || 'Unknown error occurred. Please try again later',
+      status: 'error',
+      duration: 5000,
+      isClosable: true,
+    })
   }
 
   const commitSignUpMutation = (input, setSubmitting) =>
@@ -52,7 +61,7 @@ const SignUp = () => {
         input,
       },
       onCompleted: () => handleCreateUserMutationCompleted(setSubmitting),
-      onError: () => handleCreateUserMutationError(setSubmitting),
+      onError: (error) => handleCreateUserMutationError(setSubmitting, error),
     })
 
   const handleFormSubmit = (values, { setSubmitting }) => {
