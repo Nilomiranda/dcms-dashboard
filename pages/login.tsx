@@ -1,34 +1,29 @@
 import { Box, Button, Flex, Heading, Text, Link as ChakraLink, useToast } from '@chakra-ui/react'
 import { Formik, Form, Field } from 'formik'
-import * as yup from 'yup'
 import Link from 'next/link'
+import * as yup from 'yup'
 import { commitMutation, useRelayEnvironment, graphql } from 'react-relay'
 
 import Input from '../components/form/Input'
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('This field is required'),
-  name: yup.string().required('This field is required'),
   password: yup.string().required('This field is required'),
-  passwordConfirmation: yup.string().test('passwords-match', 'Passwords must match', function validatePasswordConfirmation(value) {
-    return this.parent.password === value
-  }),
 })
 
 const formInitialValues = {
   email: '',
-  name: '',
   password: '',
-  passwordConfirmation: '',
 }
 
-const SignUp = () => {
+const Login = () => {
   const toast = useToast()
   const environment = useRelayEnvironment()
 
-  const signUpMutation = graphql`
-    mutation signUpMutation($input: CreateUserInput!) {
-      createUser(input: $input) {
+  const loginMutation = graphql`
+    mutation loginMutation($input: SignInInput!) {
+      signIn(input: $input) {
+        token
         user {
           name
           id
@@ -38,22 +33,22 @@ const SignUp = () => {
     }
   `
 
-  const handleCreateUserMutationCompleted = (setSubmitting) => {
+  const handleSignInMutationCompleted = (setSubmitting) => {
     setSubmitting(false)
 
     toast({
-      description: 'Account successfully created!',
+      description: 'Logged in!',
       status: 'success',
       duration: 5000,
       isClosable: true,
     })
   }
 
-  const handleCreateUserMutationError = (setSubmitting, error: Error) => {
+  const handleSignInMutationFailed = (setSubmitting, error: Error) => {
     setSubmitting(false)
 
     toast({
-      title: "Couldn't create account",
+      title: "Couldn't sign you in",
       description: error?.message || 'Unknown error occurred. Please try again later',
       status: 'error',
       duration: 5000,
@@ -63,19 +58,19 @@ const SignUp = () => {
 
   const commitSignUpMutation = (input, setSubmitting) =>
     commitMutation(environment, {
-      mutation: signUpMutation,
+      mutation: loginMutation,
       variables: {
         input,
       },
-      onCompleted: () => handleCreateUserMutationCompleted(setSubmitting),
-      onError: (error) => handleCreateUserMutationError(setSubmitting, error),
+      onCompleted: () => handleSignInMutationCompleted(setSubmitting),
+      onError: (error) => handleSignInMutationFailed(setSubmitting, error),
     })
 
   const handleFormSubmit = (values, { setSubmitting }) => {
     setSubmitting(true)
-    const { name, email, password } = values
+    const { email, password } = values
 
-    commitSignUpMutation({ name, authProvider: { credentials: { email, password } } }, setSubmitting)
+    commitSignUpMutation({ credentials: { email, password } }, setSubmitting)
   }
 
   return (
@@ -98,12 +93,6 @@ const SignUp = () => {
               </Box>
 
               <Box mb={8}>
-                <Field name="name">
-                  {({ field, form }) => <Input {...field} id="name" name="name" placeholder="How should we call you?" label="Your name" errors={form.touched.name && form.errors.name} />}
-                </Field>
-              </Box>
-
-              <Box mb={8}>
                 <Field name="password">
                   {({ field, form }) => (
                     <Input {...field} id="password" name="password" placeholder="A secure password" label="Your password" type="password" errors={form.touched.password && form.errors.password} />
@@ -111,30 +100,14 @@ const SignUp = () => {
                 </Field>
               </Box>
 
-              <Box mb={8}>
-                <Field name="passwordConfirmation">
-                  {({ field, form }) => (
-                    <Input
-                      {...field}
-                      id="password-confirmation"
-                      name="passwordConfirmation"
-                      placeholder="Your password confirmation"
-                      label="Password confirmation"
-                      type="password"
-                      errors={form.touched.passwordConfirmation && form.errors.passwordConfirmation}
-                    />
-                  )}
-                </Field>
-              </Box>
-
               <Button type="submit" alignSelf="flex-end" colorScheme="red" mb="0.5rem" isLoading={isSubmitting}>
-                Sign up
+                Login
               </Button>
 
               <Text color="white">
-                Already have an account?{' '}
-                <Link href="/login">
-                  <ChakraLink color="red.600">Log in then</ChakraLink>
+                Don't have an account?{' '}
+                <Link href="/sign-up">
+                  <ChakraLink color="red.600">Let's create one</ChakraLink>
                 </Link>
               </Text>
             </Form>
@@ -145,4 +118,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default Login
