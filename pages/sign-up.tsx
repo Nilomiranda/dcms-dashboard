@@ -1,6 +1,7 @@
 import { Box, Button, Flex, Heading, Text, Link as ChakraLink, useToast } from '@chakra-ui/react'
 import { Formik, Form, Field } from 'formik'
 import * as yup from 'yup'
+import Link from 'next/link'
 import { commitMutation, useRelayEnvironment, graphql } from 'react-relay'
 
 import Input from '../components/form/Input'
@@ -131,7 +132,10 @@ const SignUp = () => {
               </Button>
 
               <Text color="white">
-                Already have an account? <ChakraLink color="red.600">Log in then</ChakraLink>
+                Already have an account?{' '}
+                <Link href="/login">
+                  <ChakraLink color="red.600">Log in then</ChakraLink>
+                </Link>
               </Text>
             </Form>
           )}
