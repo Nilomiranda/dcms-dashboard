@@ -39,7 +39,13 @@ const SignUp = () => {
 
   const handleCreateUserMutationCompleted = (setSubmitting) => {
     setSubmitting(false)
-    console.log('user created')
+
+    toast({
+      description: 'Account successfully created!',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    })
   }
 
   const handleCreateUserMutationError = (setSubmitting, error: Error) => {
