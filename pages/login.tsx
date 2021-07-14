@@ -20,9 +20,10 @@ const Login = () => {
   const toast = useToast()
   const environment = useRelayEnvironment()
 
-  const signUpMutation = graphql`
-    mutation signUpMutation($input: CreateUserInput!) {
-      createUser(input: $input) {
+  const loginMutation = graphql`
+    mutation loginMutation($input: SignInInput!) {
+      signIn(input: $input) {
+        token
         user {
           name
           id
@@ -32,22 +33,22 @@ const Login = () => {
     }
   `
 
-  const handleCreateUserMutationCompleted = (setSubmitting) => {
+  const handleSignInMutationCompleted = (setSubmitting) => {
     setSubmitting(false)
 
     toast({
-      description: 'Account successfully created!',
+      description: 'Logged in!',
       status: 'success',
       duration: 5000,
       isClosable: true,
     })
   }
 
-  const handleCreateUserMutationError = (setSubmitting, error: Error) => {
+  const handleSignInMutationFailed = (setSubmitting, error: Error) => {
     setSubmitting(false)
 
     toast({
-      title: "Couldn't create account",
+      title: "Couldn't sign you in",
       description: error?.message || 'Unknown error occurred. Please try again later',
       status: 'error',
       duration: 5000,
@@ -57,19 +58,19 @@ const Login = () => {
 
   const commitSignUpMutation = (input, setSubmitting) =>
     commitMutation(environment, {
-      mutation: signUpMutation,
+      mutation: loginMutation,
       variables: {
         input,
       },
-      onCompleted: () => handleCreateUserMutationCompleted(setSubmitting),
-      onError: (error) => handleCreateUserMutationError(setSubmitting, error),
+      onCompleted: () => handleSignInMutationCompleted(setSubmitting),
+      onError: (error) => handleSignInMutationFailed(setSubmitting, error),
     })
 
   const handleFormSubmit = (values, { setSubmitting }) => {
     setSubmitting(true)
-    const { name, email, password } = values
+    const { email, password } = values
 
-    commitSignUpMutation({ name, authProvider: { credentials: { email, password } } }, setSubmitting)
+    commitSignUpMutation({ credentials: { email, password } }, setSubmitting)
   }
 
   return (
