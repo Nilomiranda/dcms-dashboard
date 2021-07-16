@@ -3,6 +3,7 @@ import { usePreloadedQuery, graphql } from 'react-relay'
 import { useEffect } from 'react'
 import { SidebarQuery } from './__generated__/SidebarQuery.graphql'
 import SidebarUser from './SidebarUser'
+import SidebarButtons from './SidebarButtons'
 
 const Sidebar = ({ children, queryRef }) => {
   useEffect(() => {
@@ -23,6 +24,7 @@ const Sidebar = ({ children, queryRef }) => {
     <Grid h="100vh" templateRows="repeat(2, 1fr)" templateColumns="repeat(5, 1fr)" gap={4} bg="gray.900">
       <GridItem rowSpan={2} colSpan={1} bg="gray.800">
         <SidebarUser user={data?.user} />
+        <SidebarButtons />
       </GridItem>
       <GridItem colSpan={4} rowSpan={2} bg="gray.900">
         {children}
