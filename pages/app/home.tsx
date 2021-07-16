@@ -1,8 +1,8 @@
 import { Heading, Box } from '@chakra-ui/react'
 import { useQueryLoader } from 'react-relay'
 import { useEffect, Suspense } from 'react'
-import Sidebar from '../../components/layout/Sidebar'
-import SidebarQuery from '../../components/layout/__generated__/SidebarQuery.graphql'
+import Sidebar from '../../components/layout/Sidebar/Sidebar'
+import SidebarQuery from '../../components/layout/Sidebar/__generated__/SidebarQuery.graphql'
 import LoadingScreen from '../../components/loading/LoadingScreen'
 
 const Home = (props) => {
